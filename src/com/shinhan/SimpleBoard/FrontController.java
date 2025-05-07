@@ -23,6 +23,9 @@ public class FrontController {
 			}
 			default -> CommonView.display_ready();
 			}
+			if(commonControllerInterface != null) {
+				commonControllerInterface.execute();
+			}
 		}
 		CommonView.goodBye();
 		ScannerUtil.sc.close();
