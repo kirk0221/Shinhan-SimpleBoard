@@ -6,8 +6,8 @@ public class CommonView {
 	
 	public static void menuDisplay() {
 		System.out.println("====================================");
-		System.out.println("====================================");
 		System.out.println("1. List 2. Write 3. Update 4. Delete");
+		System.out.println("====================================");
 	}
 	
 	public static void display(String message) {
