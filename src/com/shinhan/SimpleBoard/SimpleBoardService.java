@@ -1,5 +1,22 @@
 package com.shinhan.SimpleBoard;
 
-public class SimpleBoardService {
+import java.util.List;
 
+public class SimpleBoardService {
+	SimpleBoardDAO simpleBoardDAO = new SimpleBoardDAO();
+	public List<SimpleBoardDTO> selectAll(){
+		return simpleBoardDAO.selectAll();
+	}
+	public List<SimpleBoardDTO> selectByWriter(String writer){
+		return simpleBoardDAO.selectByWriter(writer);
+	}
+	public List<SimpleBoardDTO> selectByTitle(String title){
+		return simpleBoardDAO.selectByTitle(title);
+	}
+	public List<SimpleBoardDTO> selectByContents(String contents){
+		return simpleBoardDAO.selectByContents(contents);
+	}
+	public List<SimpleBoardDTO> selectByTitleAndContents(String writer, String contents){
+		return simpleBoardDAO.selectByTitleAndContents(writer, contents);
+	}
 }
