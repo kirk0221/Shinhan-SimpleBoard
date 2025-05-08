@@ -12,10 +12,10 @@ import com.shinhan.utils.DBUtil;
 
 public class SimpleBoardDAO {
 	public final String READ_ALL = "select * from SimpleBoard";
-	public final String READ_BY_WRITER = "select * from SimpleBoard where writer = ?";
-	public final String READ_BY_TITLE = "select * from SimpleBoard where title = like ?";
+	public final String READ_BY_WRITER = "select * from SimpleBoard where writer like ?";
+	public final String READ_BY_TITLE = "select * from SimpleBoard where title like ?";
 	public final String READ_BY_CONTENTS = "select * from SimpleBoard where contents like ?";
-	public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title = like ? and contents like ?";
+	public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title like ? and contents like ?";
 	
 	
 	
