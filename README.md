@@ -59,3 +59,5 @@ create sequence bno;
 ■ develop 브랜치가 기준인지 확인
 
 ■ 동작 확인을 위해 간단한 테스트 결과 스크린샷
+
+[![시연 영상](https://youtu.be/kyASwKtZuGE/0.jpg)](https://youtu.be/kyASwKtZuGE)
