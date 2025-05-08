@@ -16,7 +16,39 @@ public class SimpleBoardDAO {
 	public final String READ_BY_TITLE = "select * from SimpleBoard where title like ?";
 	public final String READ_BY_CONTENTS = "select * from SimpleBoard where contents like ?";
 	public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title like ? and contents like ?";
+	public final String DELETE= "delete from SimpleBoard where bno = ?";
 	
+	public boolean deleteBoard(int bno) {
+		
+	    boolean result = false;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        conn = DBUtil.getConnection();
+	        pstmt = conn.prepareStatement(DELETE);
+	        pstmt.setInt(1, bno);
+	        
+	        pstmt.executeUpdate();
+	        
+	        conn.commit();
+	        result=true;
+	    } catch (SQLException e) {
+	    	try {
+				if (conn != null)
+					conn.rollback(); 
+			} catch (SQLException rollbackEx) {
+				rollbackEx.printStackTrace();
+			}
+			e.printStackTrace();
+	    } finally {
+	    	DBUtil.dbDisconnect(conn, pstmt, rs);
+	    	
+	    }
+	    
+	    return result;
+	}
 	
 	
 	public List<SimpleBoardDTO> selectByTitleAndContents(String writer, String contents){
@@ -38,6 +70,7 @@ public class SimpleBoardDAO {
 			e.printStackTrace();
 		} finally {
 			DBUtil.dbDisconnect(conn, st, rs);
+			
 		}
 		return simpleBoardList;
 	}

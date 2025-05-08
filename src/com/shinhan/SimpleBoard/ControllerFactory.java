@@ -9,9 +9,11 @@ public class ControllerFactory {
 		case ("List") -> commonControllerInterface = new ListController();
 //		case ("Write") -> commonControllerInterface = new WriteController();
 //		case ("Update") -> commonControllerInterface = new UpdateController();
-//		case ("Delete") -> commonControllerInterface = new DeleteController();
+		case ("Delete") -> commonControllerInterface = new DeleteController();
 		}
 		return commonControllerInterface;
 	}
 
 }
+
+
