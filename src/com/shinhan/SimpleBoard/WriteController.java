@@ -36,9 +36,6 @@ public class WriteController implements CommonControllerInterface{
 		
 		SimpleBoardDTO sb = SimpleBoardDTO.builder().writer(writer).title(title).contents(contents).build();
 		
-		SimpleBoardService sbService = new SimpleBoardService();
-		sbService.insertPost(sb);
-		
 		int result = simpleboardService.insertPost(sb);
 		if(result>0) {
 			System.out.println("게시글이 성공적으로 등록되었습니다.");
