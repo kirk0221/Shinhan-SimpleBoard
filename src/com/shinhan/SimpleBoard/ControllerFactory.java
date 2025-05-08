@@ -1,6 +1,5 @@
 package com.shinhan.SimpleBoard;
 
-
 // Factory Pattern
 public class ControllerFactory {
 
@@ -8,9 +7,9 @@ public class ControllerFactory {
 		CommonControllerInterface commonControllerInterface = null;
 		switch (business) {
 		case ("List") -> commonControllerInterface = new ListController();
-		case ("Write") -> commonControllerInterface = new WriteController();
-		case ("Update") -> commonControllerInterface = new UpdateController();
-		case ("Delete") -> commonControllerInterface = new DeleteController();
+//		case ("Write") -> commonControllerInterface = new WriteController();
+//		case ("Update") -> commonControllerInterface = new UpdateController();
+//		case ("Delete") -> commonControllerInterface = new DeleteController();
 		}
 		return commonControllerInterface;
 	}
