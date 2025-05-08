@@ -22,3 +22,4 @@ create table SimpleBoard(
     contents varchar2(200)
 );
 
+create sequence bno;
