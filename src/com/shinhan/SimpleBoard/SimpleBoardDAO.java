@@ -10,22 +10,57 @@ import java.util.List;
 import com.shinhan.utils.DBUtil;
 
 public class SimpleBoardDAO {
-		static final String BOARD_UPDATE = """
-				update SimpleBoard
-				set
-				writer = ?,title = ?, contents = ?
-				where bno =?
-				""";
-		static final String BOARD_SELECT = """
-				select *
-				from SimpleBoard
-				where writer = ? and bno = ? and title = ?
-				""";
-  	public final String READ_ALL = "select * from SimpleBoard";
-    public final String READ_BY_WRITER = "select * from SimpleBoard where writer like ?";
-    public final String READ_BY_TITLE = "select * from SimpleBoard where title like ?";
-    public final String READ_BY_CONTENTS = "select * from SimpleBoard where contents like ?";
-    public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title like ? and contents like ?";
+
+	public final String READ_ALL = "select * from SimpleBoard";
+	public final String READ_BY_WRITER = "select * from SimpleBoard where writer like ?";
+	public final String READ_BY_TITLE = "select * from SimpleBoard where title like ?";
+	public final String READ_BY_CONTENTS = "select * from SimpleBoard where contents like ?";
+	public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title like ? and contents like ?";
+	public final String DELETE= "delete from SimpleBoard where bno = ?";
+	static final String BOARD_UPDATE = """
+			update SimpleBoard
+			set
+			writer = ?,title = ?, contents = ?
+			where bno =?
+			""";
+	static final String BOARD_SELECT = """
+			select *
+			from SimpleBoard
+			where writer = ? and bno = ? and title = ?
+			""";
+	
+	public boolean deleteBoard(int bno) {
+		
+	    boolean result = false;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        conn = DBUtil.getConnection();
+	        pstmt = conn.prepareStatement(DELETE);
+	        pstmt.setInt(1, bno);
+	        
+	        pstmt.executeUpdate();
+	        
+	        conn.commit();
+	        result=true;
+	    } catch (SQLException e) {
+	    	try {
+				if (conn != null)
+					conn.rollback(); 
+			} catch (SQLException rollbackEx) {
+				rollbackEx.printStackTrace();
+			}
+			e.printStackTrace();
+	    } finally {
+	    	DBUtil.dbDisconnect(conn, pstmt, rs);
+	    	
+	    }
+	    
+	    return result;
+	}
+
 	
 	public int boardUpdate(SimpleBoardDTO board) {
 		Connection conn = DBUtil.getConnection();
@@ -49,19 +84,22 @@ public class SimpleBoardDAO {
 		}
 		
 		return resultCount;
+
 	}
 	
 	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
 		SimpleBoardDTO board = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
 		Connection conn = DBUtil.getConnection();
 		try {
-			PreparedStatement pst = conn.prepareStatement(BOARD_SELECT);
+			pst = conn.prepareStatement(BOARD_SELECT);
 			pst.setString(1, writer);
 			pst.setInt(2, bno);
 			pst.setString(3, title);
-			ResultSet rs = pst.executeQuery();
+			rs = pst.executeQuery();
 			while(rs.next()) {
-				board = makeboard(rs);
+				board = makesimpleBoardDTO(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -73,16 +111,6 @@ public class SimpleBoardDAO {
 		}
 		return board;
 	}
-
-	private SimpleBoardDTO makeboard(ResultSet rs) throws SQLException {
-		SimpleBoardDTO board = SimpleBoardDTO.builder()
-				.bno(rs.getInt(1))
-				.writer(rs.getString(2))
-				.writedate(rs.getDate(3))
-				.title(rs.getString(4))
-				.contents(rs.getString(5))
-				.build();
-		return board;
 	
 	public List<SimpleBoardDTO> selectByTitleAndContents(String writer, String contents){
 		List<SimpleBoardDTO> simpleBoardList = new ArrayList<SimpleBoardDTO>();
@@ -103,6 +131,7 @@ public class SimpleBoardDAO {
 			e.printStackTrace();
 		} finally {
 			DBUtil.dbDisconnect(conn, st, rs);
+			
 		}
 		return simpleBoardList;
 	}

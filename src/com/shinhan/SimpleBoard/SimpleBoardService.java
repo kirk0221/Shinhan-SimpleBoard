@@ -19,6 +19,10 @@ public class SimpleBoardService {
 	public List<SimpleBoardDTO> selectByTitleAndContents(String writer, String contents){
 		return simpleBoardDAO.selectByTitleAndContents(writer, contents);
 	}
+	public boolean deleteByNum(int num) {
+		// TODO Auto-generated method stub
+		return simpleBoardDAO.deleteBoard(num);
+	}
   	public int boardUpdate(SimpleBoardDTO board) {
 		int result = boardDAO.boardUpdate(board);
 		if(result == 0) {
@@ -26,9 +30,7 @@ public class SimpleBoardService {
 		}
 		return result;
 	}
-	
 	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
 		SimpleBoardDTO board = boardDAO.selectBoard(writer, bno, title);
-		
 		return board;
 }

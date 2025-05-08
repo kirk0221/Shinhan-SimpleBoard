@@ -49,4 +49,14 @@ public class CommonView {
 		System.out.println("=====" + message + " 정보 조회=====");
 		System.out.println(dto);
 	}
+
+	public static void display(boolean deleteByNum) {
+		// TODO Auto-generated method stub
+		if(deleteByNum) {
+			System.out.println("성공적으로 삭제되었습니다");
+		}
+		else {
+			System.out.println("삭제에 실패했습니다 글 번호를 확인해주세요 ");
+		}
+	}
 }
