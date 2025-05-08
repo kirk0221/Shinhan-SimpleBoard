@@ -7,8 +7,8 @@ public class ControllerFactory {
 		CommonControllerInterface commonControllerInterface = null;
 		switch (business) {
 		case ("List") -> commonControllerInterface = new ListController();
-//		case ("Write") -> commonControllerInterface = new WriteController();
-//		case ("Update") -> commonControllerInterface = new UpdateController();
+    case ("Write") -> commonControllerInterface = new WriteController();
+    case ("Update") -> commonControllerInterface = new UpdateController();
 		case ("Delete") -> commonControllerInterface = new DeleteController();
 		}
 		return commonControllerInterface;

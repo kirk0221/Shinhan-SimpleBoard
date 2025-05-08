@@ -7,16 +7,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.shinhan.utils.DBUtil;
 
 public class SimpleBoardDAO {
+
 	public final String READ_ALL = "select * from SimpleBoard";
 	public final String READ_BY_WRITER = "select * from SimpleBoard where writer like ?";
 	public final String READ_BY_TITLE = "select * from SimpleBoard where title like ?";
 	public final String READ_BY_CONTENTS = "select * from SimpleBoard where contents like ?";
 	public final String READ_BY_TITLE_AND_CONTENTS = "select * from SimpleBoard where title like ? and contents like ?";
 	public final String DELETE= "delete from SimpleBoard where bno = ?";
+	static final String BOARD_UPDATE = """
+			update SimpleBoard
+			set
+			writer = ?,title = ?, contents = ?
+			where bno =?
+			""";
+	static final String BOARD_SELECT = """
+			select *
+			from SimpleBoard
+			where writer = ? and bno = ? and title = ?
+			""";
 	
 	public boolean deleteBoard(int bno) {
 		
@@ -49,7 +60,57 @@ public class SimpleBoardDAO {
 	    
 	    return result;
 	}
+
 	
+	public int boardUpdate(SimpleBoardDTO board) {
+		Connection conn = DBUtil.getConnection();
+		int resultCount=0;
+		try {
+			PreparedStatement pst = conn.prepareStatement(BOARD_UPDATE);
+			pst.setString(1, board.getWriter());
+			pst.setString(2, board.getTitle());
+			pst.setString(3, board.getContents());
+			pst.setInt(4, board.getBno());
+			resultCount = pst.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return resultCount;
+
+	}
+	
+	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
+		SimpleBoardDTO board = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		Connection conn = DBUtil.getConnection();
+		try {
+			pst = conn.prepareStatement(BOARD_SELECT);
+			pst.setString(1, writer);
+			pst.setInt(2, bno);
+			pst.setString(3, title);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				board = makesimpleBoardDTO(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("==========================");
+			System.err.println("일치하는 정보가 존재하지 않습니다.");
+			System.err.println("==========================");
+		} finally {
+			DBUtil.dbDisconnect(conn, pst, rs);
+		}
+		return board;
+	}
 	
 	public List<SimpleBoardDTO> selectByTitleAndContents(String writer, String contents){
 		List<SimpleBoardDTO> simpleBoardList = new ArrayList<SimpleBoardDTO>();
@@ -174,3 +235,4 @@ public class SimpleBoardDAO {
 	}
 	
 }
+
