@@ -10,7 +10,7 @@ public class ListController implements CommonControllerInterface {
 		int select;
 		boolean is_end = false;
 		while (!is_end) {
-			ListView.displaymenu();
+			CommonView.ListmanuDisplay();
 			select = InsertUtil.check_Integer_Input("번호 입력 > ");
 			switch (select) {
 			case 1 -> selectAll();
@@ -22,6 +22,7 @@ public class ListController implements CommonControllerInterface {
 				is_end = true;
 				CommonView.goodBye("조회");
 			}
+			default -> CommonView.display_ready();
 			}
 		}
 	}

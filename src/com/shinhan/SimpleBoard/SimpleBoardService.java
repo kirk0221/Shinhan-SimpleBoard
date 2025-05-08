@@ -25,23 +25,18 @@ public class SimpleBoardService {
 		return simpleBoardDAO.selectByTitleAndContents(writer, contents);
 	}
 
-	public boolean deleteByNum(int num) {
-		// TODO Auto-generated method stub
+	public int deleteByNum(int num) {
 		return simpleBoardDAO.deleteBoard(num);
 	}
 
 	public int boardUpdate(SimpleBoardDTO board) {
-		int result = simpleBoardDAO.boardUpdate(board);
-		if (result == 0) {
-			System.out.println("수정에 실패하셨습니다.");
-		}
-		return result;
+		return simpleBoardDAO.boardUpdate(board);
 	}
 
 	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
-		SimpleBoardDTO board = simpleBoardDAO.selectBoard(writer, bno, title);
-		return board;
+		return simpleBoardDAO.selectBoard(writer, bno, title);
 	}
+
 	public int insertPost(SimpleBoardDTO sb) {
 		return simpleBoardDAO.insertPost(sb);
 	}

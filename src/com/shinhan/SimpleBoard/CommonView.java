@@ -3,17 +3,23 @@ package com.shinhan.SimpleBoard;
 import java.util.List;
 
 public class CommonView {
-	
+
 	public static void menuDisplay() {
 		System.out.println("============================================");
 		System.out.println("1. List 2. Write 3. Update 4. Delete 5. END");
 		System.out.println("============================================");
 	}
-	
+
+	public static void ListmanuDisplay() {
+		System.out.println("=================================================================");
+		System.out.println("1. 전체 조회 2. 작성자 조회 3. 제목 조회 4. 내용 조회 5. 작성자/제목 조회 6. 종료");
+		System.out.println("=================================================================");
+	}
+
 	public static void display(String message) {
 		System.out.println("알림 > " + message);
 	}
-	
+
 	public static void goodBye() {
 		System.out.println("=========    ====    =========");
 		System.out.println("========  ===    ===  ========");
@@ -50,13 +56,12 @@ public class CommonView {
 		System.out.println(dto);
 	}
 
-	public static void display(boolean deleteByNum) {
-		// TODO Auto-generated method stub
-		if(deleteByNum) {
-			System.out.println("성공적으로 삭제되었습니다");
-		}
-		else {
-			System.out.println("삭제에 실패했습니다 글 번호를 확인해주세요 ");
+	public static void display(int result, String message) {
+		if (result > 0) {
+			System.out.println("성공적으로 " + message + "되었습니다.");
+		} else {
+			System.out.println(message + " 실패했습니다.");
 		}
 	}
+
 }
