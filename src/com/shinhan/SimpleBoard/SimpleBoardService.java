@@ -13,11 +13,7 @@ public class SimpleBoardService {
 	
 	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
 		SimpleBoardDTO board = boardDAO.selectBoard(writer, bno, title);
-		if(board != null) {
-			
-		}else {
-			
-		}
+		
 		return board;
 	}
 }

@@ -11,32 +11,39 @@ public class SimpleBoardDAO {
 		Connection conn;
 		PreparedStatement pst;
 		ResultSet rs;
-		int resultCount;
+		
 		
 		static final String BOARD_UPDATE = """
-				update simpleboard
+				update SimpleBoard
 				set
 				writer = ?,title = ?, contents = ?
-				where bno =? and writer = ? and title =?
+				where bno =?
 				""";
 		static final String BOARD_SELECT = """
 				select *
-				from simpleboard
-				where bno =? and writer = ? and title =?
+				from SimpleBoard
+				where writer = ? and bno = ? and title = ?
 				""";
 	
 	public int boardUpdate(SimpleBoardDTO board) {
 		conn = DBUtil.getConnection();
+		int resultCount=0;
 		try {
 			pst = conn.prepareStatement(BOARD_UPDATE);
 			pst.setString(1, board.getWriter());
 			pst.setString(2, board.getTitle());
 			pst.setString(3, board.getContents());
 			pst.setInt(4, board.getBno());
-			pst.setString(5, board.getWriter());
-			pst.setString(6, board.getTitle());
+			resultCount = pst.executeUpdate();
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		return resultCount;
@@ -56,6 +63,9 @@ public class SimpleBoardDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.err.println("==========================");
+			System.err.println("일치하는 정보가 존재하지 않습니다.");
+			System.err.println("==========================");
 		} finally {
 			DBUtil.dbDisconnect(conn, pst, rs);
 		}
@@ -70,7 +80,7 @@ public class SimpleBoardDAO {
 				.title(rs.getString(4))
 				.contents(rs.getString(5))
 				.build();
-		return null;
+		return board;
 	}
 	
 }
