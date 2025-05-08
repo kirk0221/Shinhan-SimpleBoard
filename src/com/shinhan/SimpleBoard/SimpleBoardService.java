@@ -33,4 +33,7 @@ public class SimpleBoardService {
 	public SimpleBoardDTO selectBoard(String writer, int bno, String title) {
 		SimpleBoardDTO board = boardDAO.selectBoard(writer, bno, title);
 		return board;
+	public int insertPost(SimpleBoardDTO sb) {
+		return simpleboardDAO.insertPost(sb);
+	}
 }
