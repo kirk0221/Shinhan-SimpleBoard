@@ -8,8 +8,6 @@
 
 천희찬 - WriterController
 
-변수명은 snake 표기법
-
 ### DB 테이블
 
 bno(number), writer(varchar2 50), writedate(date), title(varchar2 50), contents(varchar2 200)
@@ -59,3 +57,5 @@ create sequence bno;
 ■ develop 브랜치가 기준인지 확인
 
 ■ 동작 확인을 위해 간단한 테스트 결과 스크린샷
+
+[![시연 영상](https://youtu.be/kyASwKtZuGE/0.jpg)](https://youtu.be/kyASwKtZuGE)
